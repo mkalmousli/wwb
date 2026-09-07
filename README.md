@@ -53,8 +53,12 @@ and open any snapshot in your browser.
   (`arm64-v8a` for most phones; `universal` works anywhere).
 - **F-Droid:** the [`build.py`](build.py) reproducible build and
   [`metadata/`](metadata) are ready; an inclusion request is planned.
-- **Desktop (Linux / Windows / macOS):** download the archive for your OS from
-  the release, or build from source (below).
+- **Desktop:** download the archive for your OS from the release, or build from
+  source (below).
+  - *Linux:* extract and run `./wwb` (needs GTK 3).
+  - *Windows:* extract and run `wwb.exe`.
+  - *macOS:* the `.app` is unsigned, so run
+    `xattr -dr com.apple.quarantine WayWayBack.app` once, then open it.
 
 ## Build from source
 
