@@ -2,29 +2,53 @@ Categories:
   - Internet
 License: GPL-3.0-or-later
 AuthorName: mkalmousli
-WebSite: https://github.com/mkalmousli/wwb
+AuthorWebSite: https://al-mo.de
+WebSite: https://al-mo.de/apps/waywayback/
 SourceCode: https://github.com/mkalmousli/wwb
 IssueTracker: https://github.com/mkalmousli/wwb/issues
-Changelog: https://github.com/mkalmousli/wwb/blob/main/CHANGELOG.md
+Changelog: https://github.com/mkalmousli/wwb/releases
+Donate: https://ko-fi.com/mkalmousli
 
 AutoName: WayWayBack
 
 RepoType: git
-Repo: https://github.com/mkalmousli/wwb.git
+Repo: https://github.com/mkalmousli/wwb
 
 Builds:
   - versionName: 1.0.0
     versionCode: 1
     commit: v1.0.0
-    sudo:
-      - apt-get update
-      - apt-get install -y --no-install-recommends python3 openjdk-17-jdk-headless unzip
+    output: build/app/outputs/flutter-apk/app-release.apk
+    srclibs:
+      - flutter@stable
+    prebuild:
+      - export version=$(grep flutter .fvmrc | cut -d ":" -f2 | cut -d '"' -f2)
+      - '[[ $version ]] || exit 1'
+      - git -C $$flutter$$ checkout -f $version
+      - export repo=/tmp/app
+      - rm -rf $repo
+      - cd ..
+      - mv com.github.mkalmousli.wwb $repo
+      - pushd $repo
+      - export PUB_CACHE=$(pwd)/.pub-cache
+      - $$flutter$$/bin/flutter config --no-analytics
+      - $$flutter$$/bin/flutter pub get
+      - popd
+      - mv $repo com.github.mkalmousli.wwb
+    scandelete:
+      - .pub-cache
     build:
-      - python3 build.py
-    output: app.apk
+      - export repo=/tmp/app
+      - cd ..
+      - mv com.github.mkalmousli.wwb $repo
+      - pushd $repo
+      - export PUB_CACHE=$(pwd)/.pub-cache
+      - $$flutter$$/bin/flutter build apk --release
+      - popd
+      - mv $repo com.github.mkalmousli.wwb
 
-# Reproducible build: F-Droid rebuilds from source and, if the result matches
-# the APK on the GitHub release (signatures stripped), ships the signed one.
+# F-Droid rebuilds from source; if the result matches the signed APK on the
+# GitHub release (signatures stripped) it ships that one instead.
 Binaries: https://github.com/mkalmousli/wwb/releases/download/v%v/wwb-%v-universal.apk
 AllowedAPKSigningKeys: 2248c5fa900222741f2b94f0c9ed68c1590bdb27ae2ff5d72e3c5dc10601d9b9
 
