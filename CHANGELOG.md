@@ -14,12 +14,15 @@ First public release.
 - Empty years and months are detected from the sparkline, marked with a ✕, and
   never re-fetched.
 - Per-day snapshot list with cascading hour / minute / second filters.
-- Search: instant URL guesses + keyless FOSS engines (Wikidata, Wikipedia,
-  Marginalia) plus DuckDuckGo, Hacker News and npm, merged round-robin.
+- Search: instant URL guesses plus two optional keyless engines — Wikipedia
+  (article → homepage) and npm (package → repository). Recent searches are
+  saved and offered next time.
 - Star favourite sites and snapshots; local History of opened links and captures.
 - Android share-target and `wwb://open?url=…` deep links open the Link screen
-  directly.
+  directly; a dismissable tip points this out.
 - Light / dark / system theme; drag-to-reorder home tabs.
+- About screen detects phone vs desktop and links the other build, plus a
+  Ko-fi donation link.
 - Runs on Android, Linux, Windows and macOS.
 
 [1.0.0]: https://github.com/mkalmousli/wwb/releases/tag/v1.0.0

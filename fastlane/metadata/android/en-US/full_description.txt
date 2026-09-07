@@ -12,8 +12,8 @@ Features
 * Years, months and days with no captures are marked and never re-fetched
 * Fast: uses the Wayback Machine's own calendar endpoints, and caches locally
 * Per-day snapshot list with smart hour / minute / second filters
-* Search that merges instant URL guesses with FOSS engines (Wikidata,
-  Wikipedia, Marginalia) plus DuckDuckGo, Hacker News and npm
+* Search merges instant URL guesses with optional Wikipedia and npm
+  lookups; recent searches are remembered
 * Star favourite sites and snapshots; History of everything you opened
 * Share a link into the app to jump straight to its archive calendar
 * Light / dark / system theme, reorderable home tabs
