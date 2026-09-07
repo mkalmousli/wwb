@@ -1,0 +1,24 @@
+WayWayBack is a small, fast, fully client-side browser for the Internet Archive
+Wayback Machine.
+
+Search for a website, then walk its history on a heat-map calendar: pick a year,
+a month and a day and see exactly how many times it was captured. Open any
+snapshot in your browser, star the sites and captures you care about, and keep a
+local history of what you have looked at.
+
+Features
+
+* Year -> month -> day calendar with capture counts and a heat scale
+* Years, months and days with no captures are marked and never re-fetched
+* Fast: uses the Wayback Machine's own calendar endpoints, and caches locally
+* Per-day snapshot list with smart hour / minute / second filters
+* Search that merges instant URL guesses with FOSS engines (Wikidata,
+  Wikipedia, Marginalia) plus DuckDuckGo, Hacker News and npm
+* Star favourite sites and snapshots; History of everything you opened
+* Share a link into the app to jump straight to its archive calendar
+* Light / dark / system theme, reorderable home tabs
+* No account, no backend, no tracking, no ads. All data stays on your device.
+
+WayWayBack is an independent, unofficial client. It is not the Wayback Machine
+and is not affiliated with or endorsed by the Internet Archive. Archived content
+and trademarks belong to their respective owners.

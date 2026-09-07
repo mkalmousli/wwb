@@ -1,0 +1,47 @@
+name: wwb
+description: "WayWayBack — an unofficial, client-side Internet Archive Wayback Machine browser."
+publish_to: 'none'
+
+# versionName+versionCode. Bump both for every release.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^2.6.1
+  http: ^1.6.0
+  flutter_svg: ^2.3.0
+  url_launcher: ^6.3.2
+  drift: ^2.34.4
+  drift_flutter: ^0.3.1
+  path_provider: ^2.1.6
+  path: ^1.9.1
+  intl: ^0.20.3
+  share_plus: ^10.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  drift_dev: ^2.34.0
+  build_runner: ^2.15.1
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/wwb.svg    # app logo (globe + clock)
+    - assets/logo.svg   # author mark (mkalmousli)
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#E8F1FA"
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  min_sdk_android: 21

@@ -1,0 +1,10 @@
+First release.
+
+- Search for a site and browse its Wayback Machine history on a
+  year / month / day heat calendar.
+- Per-day snapshot list with hour / minute / second filters.
+- Star favourite sites and snapshots; local History of opened links.
+- Share a link into the app to open its archive calendar.
+- FOSS-first search (Wikidata, Wikipedia, Marginalia) + DuckDuckGo, HN, npm.
+- Light / dark / system theme, reorderable home tabs.
+- Fully client-side: no account, no backend, no tracking.
