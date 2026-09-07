@@ -60,3 +60,6 @@ android/.gradle/
 
 # build.py output
 /app.apk
+
+# build.py in-place cache (Docker / F-Droid)
+/.build-cache/
