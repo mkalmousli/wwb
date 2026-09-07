@@ -56,3 +56,7 @@ android/key.properties
 /screenshots/annotated/
 /screenshots/framed/
 /dist/
+
+# Kotlin/Gradle build sessions
+android/.kotlin/
+android/.gradle/
