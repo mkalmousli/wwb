@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang cmake ninja-build pkg-config \
-            libgtk-3-dev liblzma-dev libstdc++-12-dev
+            libgtk-3-dev liblzma-dev
 
       - uses: subosito/flutter-action@v2
         with:
@@ -59,7 +59,8 @@ jobs:
         if: matrix.target == 'macos'
         run: |
           v="${GITHUB_REF_NAME#v}"
-          ( cd build/macos/Build/Products/Release && zip -qr - "wwb.app" ) > "wwb-$v-macos.zip"
+          app=$(ls -d build/macos/Build/Products/Release/*.app | head -1)
+          ( cd "$(dirname "$app")" && zip -qry - "$(basename "$app")" ) > "wwb-$v-macos.zip"
 
       - uses: actions/upload-artifact@v4
         with:

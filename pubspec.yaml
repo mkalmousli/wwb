@@ -41,6 +41,13 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: false
+  macos:
+    generate: true
+    image_path: "assets/icon/icon.png"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 256
   image_path: "assets/icon/icon.png"
   adaptive_icon_background: "#E8F1FA"
   adaptive_icon_foreground: "assets/icon/foreground.png"
