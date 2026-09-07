@@ -3,13 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/http_client.dart';
 import 'data/local/database.dart';
 import 'data/local/repository.dart';
-import 'data/search/duckduckgo_provider.dart';
-import 'data/search/hackernews_provider.dart';
 import 'data/search/link_guesser.dart';
-import 'data/search/marginalia_provider.dart';
 import 'data/search/npm_provider.dart';
 import 'data/search/search_provider.dart';
-import 'data/search/wikidata_provider.dart';
 import 'data/search/wikipedia_provider.dart';
 import 'data/wayback/wb_calendar.dart';
 
@@ -43,16 +39,16 @@ final tabOrderProvider = StreamProvider.autoDispose(
   (ref) => ref.watch(repositoryProvider).watchTabOrder(),
 );
 
+final recentSearchesProvider = StreamProvider.autoDispose(
+  (ref) => ref.watch(repositoryProvider).watchRecentSearches(),
+);
+
 final searchProviderImplsProvider = Provider<Map<String, SearchProviderImpl>>((
   ref,
 ) {
   final http = ref.watch(httpClientProvider);
   final impls = <SearchProviderImpl>[
-    WikidataProvider(http),
     WikipediaProvider(http),
-    MarginaliaProvider(http),
-    DuckDuckGoProvider(http),
-    HackerNewsProvider(http),
     NpmProvider(http),
   ];
   return {for (final i in impls) i.key: i};

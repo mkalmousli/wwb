@@ -48,6 +48,29 @@ class HistoryEntry {
 
 const kDefaultTabOrder = ['websites', 'snapshots', 'history'];
 
+class RecentSearch {
+  RecentSearch({required this.query, required this.url, required this.at});
+
+  final String query;
+  final String url;
+  final DateTime at;
+
+  Map<String, dynamic> toJson() => {
+    'q': query,
+    'url': url,
+    'at': at.toIso8601String(),
+  };
+
+  static RecentSearch? fromJson(Object? j) {
+    if (j is! Map || j['q'] == null || j['url'] == null) return null;
+    return RecentSearch(
+      query: '${j['q']}',
+      url: '${j['url']}',
+      at: DateTime.tryParse('${j['at']}') ?? DateTime.now(),
+    );
+  }
+}
+
 String normalizeUrl(String raw) {
   var u = raw.trim();
   if (!u.contains('://')) u = 'https://$u';
@@ -235,6 +258,45 @@ class Repository {
 
   Future<void> clearHistory() => setSetting(_historyKey, null);
 
+  // ---- recent searches (query -> chosen url), newest first ----
+  static const _recentKey = 'recent_searches';
+  static const _recentCap = 25;
+
+  List<RecentSearch> _parseRecent(String? raw) {
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      return [
+        for (final e in json.decode(raw) as List) ?RecentSearch.fromJson(e),
+      ];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Stream<List<RecentSearch>> watchRecentSearches() =>
+      (db.select(db.settings)..where((s) => s.key.equals(_recentKey)))
+          .watchSingleOrNull()
+          .map((row) => _parseRecent(row?.value));
+
+  Future<List<RecentSearch>> recentSearches() async =>
+      _parseRecent(await getSetting(_recentKey));
+
+  Future<void> addRecentSearch(String query, String url) async {
+    final q = query.trim();
+    if (q.isEmpty) return;
+    final list = _parseRecent(await getSetting(_recentKey));
+    list.removeWhere(
+      (e) => e.query.toLowerCase() == q.toLowerCase() || e.url == url,
+    );
+    list.insert(0, RecentSearch(query: q, url: url, at: DateTime.now()));
+    await setSetting(
+      _recentKey,
+      json.encode([for (final e in list.take(_recentCap)) e.toJson()]),
+    );
+  }
+
+  Future<void> clearRecentSearches() => setSetting(_recentKey, null);
+
   // ---- tab order ----
   static const _tabOrderKey = 'tab_order';
 
@@ -340,5 +402,6 @@ class Repository {
     await db.delete(db.snapshots).go();
     await db.delete(db.websites).go();
     await setSetting(_historyKey, null);
+    await setSetting(_recentKey, null);
   }
 }

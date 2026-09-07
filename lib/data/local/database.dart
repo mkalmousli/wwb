@@ -93,24 +93,22 @@ class AppDatabase extends _$AppDatabase {
       await m.createAll();
       await _seedProviders();
     },
-    // Runs on every open — adds any newly-shipped providers without a
+    // Runs on every open — keeps the shipped provider list in sync without a
     // schema bump (insertOrIgnore keeps the user's enabled/disabled state).
     beforeOpen: (details) async {
       await _seedProviders();
     },
   );
 
+  static const _providerDefaults = [
+    ('link_guesser', 'Link guesser', 0),
+    ('wikipedia', 'Wikipedia', 1),
+    ('npm', 'npm', 2),
+  ];
+
   Future<void> _seedProviders() async {
-    const defaults = [
-      ('link_guesser', 'Link guesser', 0),
-      ('wikidata', 'Wikidata', 1),
-      ('wikipedia', 'Wikipedia', 2),
-      ('marginalia', 'Marginalia', 3),
-      ('duckduckgo', 'DuckDuckGo', 4),
-      ('hackernews', 'Hacker News', 5),
-      ('npm', 'npm', 6),
-    ];
-    for (final d in defaults) {
+    final keep = {for (final d in _providerDefaults) d.$1};
+    for (final d in _providerDefaults) {
       await into(searchProviders).insert(
         SearchProvidersCompanion.insert(
           key: d.$1,
@@ -120,6 +118,8 @@ class AppDatabase extends _$AppDatabase {
         mode: InsertMode.insertOrIgnore,
       );
     }
+    // Drop providers that are no longer shipped.
+    await (delete(searchProviders)..where((p) => p.key.isNotIn(keep))).go();
   }
 
   static QueryExecutor _open() => driftDatabase(

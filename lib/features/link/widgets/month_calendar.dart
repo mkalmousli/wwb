@@ -52,7 +52,11 @@ class _MonthCalendarState extends State<MonthCalendar> {
 
   void _onPointerSignal(PointerSignalEvent e) {
     if (e is! PointerScrollEvent) return;
-    _wheelAccum += e.scrollDelta.dy;
+    // Either wheel axis (or a trackpad in any direction) turns the calendar.
+    final d = e.scrollDelta.dx.abs() > e.scrollDelta.dy.abs()
+        ? e.scrollDelta.dx
+        : e.scrollDelta.dy;
+    _wheelAccum += d;
     _wheelReset?.cancel();
     _wheelReset = Timer(
       const Duration(milliseconds: 120),
@@ -79,7 +83,14 @@ class _MonthCalendarState extends State<MonthCalendar> {
       onPointerSignal: _onPointerSignal,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
+        // A swipe in any direction turns the page: up / left → next month,
+        // down / right → previous month.
         onVerticalDragEnd: (d) {
+          final v = d.primaryVelocity ?? 0;
+          if (v < -220) _step(1);
+          if (v > 220) _step(-1);
+        },
+        onHorizontalDragEnd: (d) {
           final v = d.primaryVelocity ?? 0;
           if (v < -220) _step(1);
           if (v > 220) _step(-1);

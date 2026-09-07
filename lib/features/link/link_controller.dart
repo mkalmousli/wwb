@@ -84,6 +84,21 @@ class LinkState {
     return !_monthHasAnyCount(y, m);
   }
 
+  bool _monthHasData(int y, int m) =>
+      monthsWithData.contains(_mk(y, m)) || _monthHasAnyCount(y, m);
+
+  /// The month of [year] closest to [preferred] that has captures, or null if
+  /// the year has none / nothing is known yet.
+  int? nearestMonthWithData(int year, int preferred) {
+    if (_monthHasData(year, preferred)) return preferred;
+    for (var d = 1; d <= 11; d++) {
+      final lo = preferred - d, hi = preferred + d;
+      if (lo >= 1 && _monthHasData(year, lo)) return lo;
+      if (hi <= 12 && _monthHasData(year, hi)) return hi;
+    }
+    return null;
+  }
+
   int exactDayCount(int y, int m, int d) => dayCounts[_dk(y, m, d)] ?? -1;
 
   DayInfo dayInfo(int y, int m, int d) {
@@ -280,6 +295,14 @@ class LinkController extends StateNotifier<LinkState> {
         loadingYearDays: {...state.loadingYearDays}..remove(year),
         clearOp: true,
       );
+      // Now that we have real day data, hop off an empty month if we're on one.
+      if (year == state.selectedYear &&
+          !state._monthHasData(year, state.selectedMonth)) {
+        final m = state.nearestMonthWithData(year, state.selectedMonth);
+        if (m != null && m != state.selectedMonth) {
+          state = state.copyWith(selectedMonth: m);
+        }
+      }
     } catch (e) {
       _log('Could not load $year calendar: $e', error: true);
       if (mounted) {
@@ -305,7 +328,12 @@ class LinkController extends StateNotifier<LinkState> {
 
   void selectYear(int year) {
     if (year == state.selectedYear) return;
-    state = state.copyWith(selectedYear: year);
+    var month = state.selectedMonth;
+    // Jump to a month that actually has captures in the new year.
+    if (state.sparklineLoaded && !state.monthHasData(year, month)) {
+      month = state.nearestMonthWithData(year, month) ?? month;
+    }
+    state = state.copyWith(selectedYear: year, selectedMonth: month);
     _debounced(year);
   }
 

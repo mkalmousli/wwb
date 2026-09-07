@@ -17,6 +17,27 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _controller = TextEditingController();
   String _query = '';
+  bool _restored = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Restore the last query so its suggestions are ready straight away.
+    ref.read(repositoryProvider).recentSearches().then((list) {
+      if (!mounted || _restored) return;
+      if (list.isNotEmpty && _controller.text.isEmpty) {
+        setState(() {
+          _controller.text = list.first.query;
+          _controller.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: _controller.text.length,
+          );
+          _query = list.first.query;
+          _restored = true;
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -38,7 +59,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     return out;
   }
 
-  void _open(String url) {
+  void _open(String url, {String? query}) {
+    ref.read(repositoryProvider).addRecentSearch(query ?? _query, url);
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (_) => LinkScreen(url: url)));
@@ -46,10 +68,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final empty = _query.trim().isEmpty;
     final guesses = ref.watch(linkGuesserProvider).guess(_query);
-    final enginesAsync = _query.trim().isEmpty
+    final enginesAsync = empty
         ? const AsyncValue<List<Suggestion>>.data([])
         : ref.watch(engineSuggestionsProvider(_query));
+    final recent = ref.watch(recentSearchesProvider).valueOrNull ?? const [];
 
     final seen = <String>{};
     final items = <Suggestion>[];
@@ -66,10 +90,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             child: TextField(
               controller: _controller,
               autofocus: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 hintText: 'Enter a URL or search term',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _query.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          setState(() => _query = '');
+                        },
+                      ),
               ),
               textInputAction: TextInputAction.go,
               onChanged: (v) => setState(() => _query = v),
@@ -79,15 +112,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               },
             ),
           ),
-          if (enginesAsync.isLoading)
-            const LinearProgressIndicator(minHeight: 2),
+          if (enginesAsync.isLoading) const LinearProgressIndicator(minHeight: 2),
           Expanded(
-            child: items.isEmpty
+            child: empty
+                ? _recentList(recent)
+                : items.isEmpty
                 ? Center(
                     child: Text(
-                      _query.trim().isEmpty
-                          ? 'Start typing…'
-                          : 'No suggestions',
+                      enginesAsync.isLoading ? 'Searching…' : 'No suggestions',
                       style: TextStyle(color: Theme.of(context).hintColor),
                     ),
                   )
@@ -123,6 +155,64 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _recentList(List<RecentSearch> recent) {
+    if (recent.isEmpty) {
+      return Center(
+        child: Text(
+          'Start typing to search',
+          style: TextStyle(color: Theme.of(context).hintColor),
+        ),
+      );
+    }
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+          child: Row(
+            children: [
+              Text(
+                'Recent',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () =>
+                    ref.read(repositoryProvider).clearRecentSearches(),
+                child: const Text('Clear'),
+              ),
+            ],
+          ),
+        ),
+        for (final r in recent)
+          ListTile(
+            leading: Favicon(r.url, size: 22),
+            title: Text(
+              r.query,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              r.url,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.north_west, size: 18),
+              tooltip: 'Use',
+              onPressed: () {
+                _controller.text = r.query;
+                _controller.selection = TextSelection.collapsed(
+                  offset: r.query.length,
+                );
+                setState(() => _query = r.query);
+              },
+            ),
+            onTap: () => _open(r.url, query: r.query),
+          ),
+      ],
     );
   }
 }

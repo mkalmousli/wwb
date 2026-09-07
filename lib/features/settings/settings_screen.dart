@@ -11,6 +11,13 @@ const _tabLabels = {
   'history': 'History',
 };
 
+const _providerBlurb = {
+  'wikipedia': 'Matches article titles to their pages — good for well-known '
+      'names, brands and organisations.',
+  'npm': 'Looks up JavaScript packages and returns their homepage or '
+      'repository — handy for developer tools and libraries.',
+};
+
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -87,7 +94,17 @@ class SettingsScreen extends ConsumerWidget {
             ],
           ),
           const Divider(),
-          const _Header('Search providers'),
+          const _Header('Search engines'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+            child: Text(
+              'URL guesses (like example.com → https://example.com) always '
+              'show. These optional engines add real results:',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).hintColor,
+              ),
+            ),
+          ),
           providers.when(
             loading: () => const LinearProgressIndicator(),
             error: (e, _) => Text('Error: $e'),
@@ -100,7 +117,11 @@ class SettingsScreen extends ConsumerWidget {
                   for (final p in visible)
                     SwitchListTile(
                       title: Text(p.displayName),
-                      subtitle: Text(p.key),
+                      subtitle: Text(
+                        _providerBlurb[p.key] ?? p.key,
+                      ),
+                      isThreeLine:
+                          (_providerBlurb[p.key]?.length ?? 0) > 60,
                       value: p.enabled,
                       onChanged: (v) => repo.setProviderEnabled(p.id, v),
                     ),

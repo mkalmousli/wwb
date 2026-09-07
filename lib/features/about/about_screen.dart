@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/app_info.dart';
 import '../../core/external.dart';
+import '../../core/platform.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -29,7 +30,7 @@ class AboutScreen extends StatelessWidget {
           ),
           Center(
             child: Text(
-              'Version $kAppVersion',
+              'Version $kAppVersion  ·  ${AppPlatform.current}',
               style: TextStyle(color: Theme.of(context).hintColor),
             ),
           ),
@@ -39,13 +40,41 @@ class AboutScreen extends StatelessWidget {
             'Wayback Machine. Browse a site\'s archived snapshots by '
             'year, month and day, and open them in your browser.',
           ),
+          const SizedBox(height: 16),
+
+          // Cross-platform nudge.
+          Card(
+            color: cs.surfaceContainerHighest,
+            child: ListTile(
+              leading: Icon(
+                AppPlatform.isMobile ? Icons.desktop_windows : Icons.smartphone,
+                color: cs.primary,
+              ),
+              title: Text(
+                AppPlatform.isMobile
+                    ? 'Use WayWayBack on desktop too'
+                    : 'Use WayWayBack on your phone too',
+              ),
+              subtitle: Text(AppPlatform.crossPromo),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () => openExternal(context, AppPlatform.releasesUrl),
+            ),
+          ),
+
           const Divider(height: 32),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: SvgPicture.asset('assets/logo.svg', width: 28, height: 28),
             title: const Text('Created by mkalmousli'),
-            subtitle: const Text('github.com/mkalmousli'),
-            onTap: () => openExternal(context, 'https://github.com/mkalmousli'),
+            subtitle: const Text('al-mo.de'),
+            onTap: () => openExternal(context, 'https://al-mo.de'),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.favorite, color: Color(0xFFEB5E9C)),
+            title: const Text('Support the project'),
+            subtitle: const Text('ko-fi.com/mkalmousli'),
+            onTap: () => openExternal(context, 'https://ko-fi.com/mkalmousli'),
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,

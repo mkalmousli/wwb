@@ -36,9 +36,9 @@ and open any snapshot in your browser.
   with a ✕ and never requested.
 - **Per-day snapshot list** with smart hour / minute / second filters that only
   offer the times that actually exist.
-- **Search** that merges instant URL guesses with keyless FOSS engines —
-  **Wikidata** (official-website claim), **Wikipedia**, **Marginalia** — plus
-  DuckDuckGo, Hacker News and npm.
+- **Search** that merges instant URL guesses with two optional keyless engines —
+  **Wikipedia** (article → homepage) and **npm** (package → repository). Recent
+  searches are saved and offered next time.
 - **Stars & history.** Star sites and snapshots; keep a local history of every
   link and capture you opened.
 - **Share to open.** Share a URL into WayWayBack from any app to jump straight to
@@ -103,7 +103,7 @@ lib/
   core/                         http client, favicon, theme, deep links, helpers
   data/
     wayback/wb_calendar.dart    __wb sparkline + calendarcaptures endpoints
-    search/*                    Wikidata, Wikipedia, Marginalia, DuckDuckGo, HN, npm
+    search/*                    URL guesser, Wikipedia, npm
     local/                      drift (SQLite) — sites, snapshots, settings,
                                 history + tab order, TTL cache
   features/
