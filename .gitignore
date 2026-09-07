@@ -49,14 +49,14 @@ android/key.properties
 **/*.jks
 **/*.keystore
 
-# Local screenshot working files (keep fastlane/ + .github/social-preview.png)
-/screenshots/phone-*.png
-/screenshots/desktop-*.png
+# Screenshot scratch (the polished ones live in docs/ and fastlane/)
 /screenshots/test-*.png
 /screenshots/annotated/
-/screenshots/framed/
 /dist/
 
 # Kotlin/Gradle build sessions
 android/.kotlin/
 android/.gradle/
+
+# build.py output
+/app.apk

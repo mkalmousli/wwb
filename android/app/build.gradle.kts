@@ -9,8 +9,9 @@ plugins {
 }
 
 // Optional release signing: create android/key.properties (git-ignored) with
-// storeFile / storePassword / keyAlias / keyPassword. Absent → debug signing,
-// which is fine for `flutter run` and for F-Droid (it re-signs anyway).
+// storeFile / storePassword / keyAlias / keyPassword. Absent -> debug signing,
+// which is fine for `flutter run` and for F-Droid (it strips the signature when
+// verifying reproducibility, then ships the developer-signed APK).
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 val hasReleaseSigning = keystorePropertiesFile.exists()
@@ -58,17 +59,15 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
+            // No R8/resource shrinking: the Dart code is already AOT-compiled,
+            // and keeping the build simple makes it reproducible for F-Droid.
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 
+    // Keep the APK reproducible and free of build-environment metadata.
     dependenciesInfo {
-        // Keep the APK reproducible / F-Droid friendly.
         includeInApk = false
         includeInBundle = false
     }

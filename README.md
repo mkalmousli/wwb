@@ -24,6 +24,8 @@ and open any snapshot in your browser.
 |---|---|---|---|
 | ![](docs/screenshots/2.png) | ![](docs/screenshots/3.png) | ![](docs/screenshots/4.png) | ![](docs/screenshots/1.png) |
 
+![](docs/screenshots/desktop-1.png)
+
 ## What it does
 
 - **Year → month → day calendar.** Pick a year, a month and a day; every day cell
@@ -46,34 +48,48 @@ and open any snapshot in your browser.
 
 ## Install
 
-- **Android:** grab the APK from the [latest release](https://github.com/mkalmousli/wwb/releases/latest).
-- **F-Droid:** metadata lives in [`fastlane/`](fastlane) and
-  [`metadata/`](metadata); an inclusion request is planned.
-- **Desktop (Linux / Windows / macOS):** build from source (below).
+- **Android:** grab an APK from the
+  [latest release](https://github.com/mkalmousli/wwb/releases/latest)
+  (`arm64-v8a` for most phones; `universal` works anywhere).
+- **F-Droid:** the [`build.py`](build.py) reproducible build and
+  [`metadata/`](metadata) are ready; an inclusion request is planned.
+- **Desktop (Linux / Windows / macOS):** download the archive for your OS from
+  the release, or build from source (below).
 
 ## Build from source
 
-Requires the [Flutter SDK](https://docs.flutter.dev/get-started/install) (3.41+, Dart 3.11+).
+Requires the [Flutter SDK](https://docs.flutter.dev/get-started/install)
+(pinned to **3.41.9** in [`.fvmrc`](.fvmrc)).
 
 ```sh
 flutter pub get
 dart run build_runner build      # generates the drift database code
-dart run flutter_launcher_icons  # (only needed if icons changed)
-
 flutter run -d android           # or: linux / windows / macos
-flutter build apk --release
 ```
 
-To sign release builds, create `android/key.properties` (git-ignored):
+### Reproducible APK
+
+The release APK is built by [`build.py`](build.py), which pins the Flutter
+version and builds at a fixed path so the output is byte-for-byte identical on
+CI, in Docker and on the F-Droid server:
+
+```sh
+docker build -t wwb-build .
+docker run --rm -v "$PWD":/tmp/app wwb-build /tmp/app/build.py   # -> app.apk
+```
+
+To sign it, drop a keystore next to `android/app/` and create
+`android/key.properties` (both git-ignored):
 
 ```properties
-storeFile=/absolute/path/to/keystore.jks
+storeFile=your-keystore.jks
 storePassword=…
 keyAlias=…
 keyPassword=…
 ```
 
-Without it, release builds are debug-signed (fine for local use; F-Droid re-signs anyway).
+Without a key the build is debug-signed — fine for local use, and F-Droid
+strips the signature when it verifies reproducibility anyway.
 
 ## How it works
 
@@ -106,5 +122,3 @@ archived content, trademarks and service marks belong to their respective owners
 
 [GNU General Public License v3.0 or later](LICENSE). This program comes with
 **absolutely no warranty**.
-
-Made by [mkalmousli](https://github.com/mkalmousli).

@@ -2,35 +2,12 @@ Categories:
   - Internet
 License: GPL-3.0-or-later
 AuthorName: mkalmousli
+WebSite: https://github.com/mkalmousli/wwb
 SourceCode: https://github.com/mkalmousli/wwb
 IssueTracker: https://github.com/mkalmousli/wwb/issues
 Changelog: https://github.com/mkalmousli/wwb/blob/main/CHANGELOG.md
 
 AutoName: WayWayBack
-Description: |-
-    WayWayBack is a small, fast, fully client-side browser for the Internet
-    Archive Wayback Machine.
-
-    Search for a website, then walk its history on a heat-map calendar: pick a
-    year, a month and a day and see exactly how many times it was captured. Open
-    any snapshot in your browser, star the sites and captures you care about, and
-    keep a local history of what you have looked at.
-
-    Features:
-
-    * Year to month to day calendar with capture counts on a heat scale
-    * Years, months and days with no captures are marked and never re-fetched
-    * Uses the Wayback Machine's own calendar endpoints, and caches locally
-    * Per-day snapshot list with hour / minute / second filters
-    * Search merging instant URL guesses with FOSS engines (Wikidata, Wikipedia,
-      Marginalia) plus DuckDuckGo, Hacker News and npm
-    * Star favourite sites and snapshots; History of everything you opened
-    * Share a link into the app to jump straight to its archive calendar
-    * Light / dark / system theme, reorderable home tabs
-    * No account, no backend, no tracking, no ads
-
-    WayWayBack is an independent, unofficial client. It is not the Wayback
-    Machine and is not affiliated with or endorsed by the Internet Archive.
 
 RepoType: git
 Repo: https://github.com/mkalmousli/wwb.git
@@ -39,22 +16,17 @@ Builds:
   - versionName: 1.0.0
     versionCode: 1
     commit: v1.0.0
-    subdir: .
     sudo:
       - apt-get update
-      - apt-get install -y curl xz-utils
-    submodules: false
-    output: build/app/outputs/flutter-apk/app-release.apk
-    srclibs:
-      - flutter@stable
-    prebuild:
-      - $$flutter$$/bin/flutter config --no-analytics
-      - $$flutter$$/bin/flutter pub get
-      - $$flutter$$/bin/dart run build_runner build --delete-conflicting-outputs
-    scanignore:
-      - build_runner
+      - apt-get install -y --no-install-recommends python3 openjdk-17-jdk-headless unzip
     build:
-      - $$flutter$$/bin/flutter build apk --release
+      - python3 build.py
+    output: app.apk
+
+# Reproducible build: F-Droid rebuilds from source and, if the result matches
+# the APK on the GitHub release (signatures stripped), ships the signed one.
+Binaries: https://github.com/mkalmousli/wwb/releases/download/v%v/wwb-%v-universal.apk
+AllowedAPKSigningKeys: 2248c5fa900222741f2b94f0c9ed68c1590bdb27ae2ff5d72e3c5dc10601d9b9
 
 AutoUpdateMode: Version v%v
 UpdateCheckMode: Tags
