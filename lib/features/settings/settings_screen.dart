@@ -12,9 +12,11 @@ const _tabLabels = {
 };
 
 const _providerBlurb = {
-  'wikipedia': 'Matches article titles to their pages — good for well-known '
+  'wikipedia':
+      'Matches article titles to their pages — good for well-known '
       'names, brands and organisations.',
-  'npm': 'Looks up JavaScript packages and returns their homepage or '
+  'npm':
+      'Looks up JavaScript packages and returns their homepage or '
       'repository — handy for developer tools and libraries.',
 };
 
@@ -117,11 +119,8 @@ class SettingsScreen extends ConsumerWidget {
                   for (final p in visible)
                     SwitchListTile(
                       title: Text(p.displayName),
-                      subtitle: Text(
-                        _providerBlurb[p.key] ?? p.key,
-                      ),
-                      isThreeLine:
-                          (_providerBlurb[p.key]?.length ?? 0) > 60,
+                      subtitle: Text(_providerBlurb[p.key] ?? p.key),
+                      isThreeLine: (_providerBlurb[p.key]?.length ?? 0) > 60,
                       value: p.enabled,
                       onChanged: (v) => repo.setProviderEnabled(p.id, v),
                     ),

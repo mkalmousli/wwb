@@ -125,7 +125,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               },
             ),
           ),
-          if (enginesAsync.isLoading) const LinearProgressIndicator(minHeight: 2),
+          if (enginesAsync.isLoading)
+            const LinearProgressIndicator(minHeight: 2),
           if (_showShareHint) _shareHint(),
           Expanded(
             child: empty
@@ -219,10 +220,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
           child: Row(
             children: [
-              Text(
-                'Recent',
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
+              Text('Recent', style: Theme.of(context).textTheme.labelLarge),
               const Spacer(),
               TextButton(
                 onPressed: () =>
@@ -235,16 +233,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         for (final r in recent)
           ListTile(
             leading: Favicon(r.url, size: 22),
-            title: Text(
-              r.query,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              r.url,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            title: Text(r.query, maxLines: 1, overflow: TextOverflow.ellipsis),
+            subtitle: Text(r.url, maxLines: 1, overflow: TextOverflow.ellipsis),
             trailing: IconButton(
               icon: const Icon(Icons.north_west, size: 18),
               tooltip: 'Use',
