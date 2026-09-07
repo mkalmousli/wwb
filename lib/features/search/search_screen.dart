@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/favicon.dart';
+import '../../core/platform.dart';
 import '../../data/local/repository.dart';
 import '../../data/search/search_provider.dart';
 import '../../providers.dart';
@@ -18,10 +19,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _controller = TextEditingController();
   String _query = '';
   bool _restored = false;
+  bool _showShareHint = false;
 
   @override
   void initState() {
     super.initState();
+    if (AppPlatform.isMobile) {
+      ref.read(repositoryProvider).shareHintDismissed().then((dismissed) {
+        if (mounted && !dismissed) setState(() => _showShareHint = true);
+      });
+    }
     // Restore the last query so its suggestions are ready straight away.
     ref.read(repositoryProvider).recentSearches().then((list) {
       if (!mounted || _restored) return;
@@ -61,9 +68,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _open(String url, {String? query}) {
     ref.read(repositoryProvider).addRecentSearch(query ?? _query, url);
+    // Replace Search with the calendar — Back should return to Home, not here.
     Navigator.of(
       context,
-    ).push(MaterialPageRoute(builder: (_) => LinkScreen(url: url)));
+    ).pushReplacement(MaterialPageRoute(builder: (_) => LinkScreen(url: url)));
+  }
+
+  void _dismissShareHint() {
+    ref.read(repositoryProvider).dismissShareHint();
+    setState(() => _showShareHint = false);
   }
 
   @override
@@ -113,6 +126,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
           ),
           if (enginesAsync.isLoading) const LinearProgressIndicator(minHeight: 2),
+          if (_showShareHint) _shareHint(),
           Expanded(
             child: empty
                 ? _recentList(recent)
@@ -152,6 +166,38 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       );
                     },
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _shareHint() {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      padding: const EdgeInsets.fromLTRB(12, 10, 4, 10),
+      decoration: BoxDecoration(
+        color: cs.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.ios_share, size: 20, color: cs.onSecondaryContainer),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Tip: share a link from any app into WayWayBack to open its '
+              'archive straight away.',
+              style: TextStyle(color: cs.onSecondaryContainer, fontSize: 13),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.close, size: 18),
+            tooltip: 'Dismiss',
+            color: cs.onSecondaryContainer,
+            onPressed: _dismissShareHint,
           ),
         ],
       ),

@@ -21,8 +21,8 @@ class AppPlatform {
   static String get crossPromo => isMobile
       ? 'Also runs on your computer — WayWayBack has native builds for '
             'Linux, Windows and macOS.'
-      : 'Also on your phone — get the Android app from F-Droid or the '
-            'GitHub releases page.';
+      : 'Also on your phone — WayWayBack has an Android app.';
 
-  static const releasesUrl = 'https://github.com/mkalmousli/wwb/releases/latest';
+  /// Where to send people for every build of the app.
+  static const appsUrl = 'https://al-mo.de/apps/waywayback/';
 }

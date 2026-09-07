@@ -297,6 +297,14 @@ class Repository {
 
   Future<void> clearRecentSearches() => setSetting(_recentKey, null);
 
+  // ---- one-off UI hints the user can dismiss ----
+  static const _shareHintKey = 'hint_share_to_open_dismissed';
+
+  Future<bool> shareHintDismissed() async =>
+      (await getSetting(_shareHintKey)) == '1';
+
+  Future<void> dismissShareHint() => setSetting(_shareHintKey, '1');
+
   // ---- tab order ----
   static const _tabOrderKey = 'tab_order';
 

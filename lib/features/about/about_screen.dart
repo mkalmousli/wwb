@@ -57,7 +57,7 @@ class AboutScreen extends StatelessWidget {
               ),
               subtitle: Text(AppPlatform.crossPromo),
               trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () => openExternal(context, AppPlatform.releasesUrl),
+              onTap: () => openExternal(context, AppPlatform.appsUrl),
             ),
           ),
 
