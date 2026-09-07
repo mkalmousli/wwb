@@ -95,6 +95,24 @@ keyPassword=…
 Without a key the build is debug-signed — fine for local use, and F-Droid
 strips the signature when it verifies reproducibility anyway.
 
+### GitHub Actions secrets
+
+The [release workflow](.github/workflows/release.yml) signs and publishes the
+APK only when these repository secrets are set
+(**Settings → Secrets and variables → Actions**):
+
+| Secret | Value |
+|---|---|
+| `KEYSTORE_BASE64` | the keystore file, base64-encoded: `base64 -w0 your-keystore.jks` |
+| `KEYSTORE_PASSWORD` | store password |
+| `KEY_ALIAS` | key alias |
+| `KEY_PASSWORD` | key password |
+
+If they are absent the workflow still runs as a reproducibility check but skips
+publishing, and the maintainer uploads a locally-signed APK to the release
+instead. Keep the same keystore forever — F-Droid pins its fingerprint in
+[`metadata/`](metadata) (`AllowedAPKSigningKeys`).
+
 ## How it works
 
 ```
