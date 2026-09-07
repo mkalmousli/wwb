@@ -20,6 +20,9 @@ dependencies:
   drift: ^2.34.4
   drift_flutter: ^0.3.1
   path_provider: ^2.1.6
+  # 2.3.x switched to JNI bindings, which build a native lib with the NDK and
+  # break reproducible builds. Pin to the last platform-channel release.
+  path_provider_android: 2.2.23
   path: ^1.9.1
   intl: ^0.20.3
   share_plus: ^10.1.4

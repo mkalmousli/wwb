@@ -76,10 +76,18 @@ if THIS_DIR != REPRODUCIBLE_ROOT:
     )
 os.makedirs(TOOLS_DIR, exist_ok=True)
 
-# 2. Android SDK.
-if not exists(join(ANDROID_HOME, "platform-tools")) and not exists(
-    join(ANDROID_HOME, "cmdline-tools")
+# 2. Android SDK — pinned components for a reproducible dex/zipalign.
+BUILD_TOOLS = "34.0.0"
+sdkmanager = None
+for cand in (
+    join(ANDROID_HOME, "cmdline-tools", "latest", "bin", "sdkmanager"),
+    join(ANDROID_HOME, "cmdline-tools", "bin", "sdkmanager"),
+    join(ANDROID_HOME, "tools", "bin", "sdkmanager"),
 ):
+    if exists(cand):
+        sdkmanager = cand
+        break
+if sdkmanager is None:
     zip_path = join(CACHE_DIR, "cmdline-tools.zip")
     download(
         "https://dl.google.com/android/repository/"
@@ -91,19 +99,20 @@ if not exists(join(ANDROID_HOME, "platform-tools")) and not exists(
         os.makedirs(cmt, exist_ok=True)
         run(["unzip", "-q", zip_path, "-d", cmt], cwd=TOOLS_DIR)
     sdkmanager = join(cmt, "cmdline-tools", "bin", "sdkmanager")
-    os.makedirs(ANDROID_HOME, exist_ok=True)
-    p = subprocess.Popen(
-        [sdkmanager, f"--sdk_root={ANDROID_HOME}", "--licenses"],
-        stdin=subprocess.PIPE,
-    )
-    p.communicate(b"y\n" * 50)
-    run(
-        [
-            sdkmanager, f"--sdk_root={ANDROID_HOME}",
-            "platform-tools", "build-tools;34.0.0", "platforms;android-35",
-        ],
-        cwd=TOOLS_DIR,
-    )
+
+os.makedirs(ANDROID_HOME, exist_ok=True)
+p = subprocess.Popen(
+    [sdkmanager, f"--sdk_root={ANDROID_HOME}", "--licenses"],
+    stdin=subprocess.PIPE,
+)
+p.communicate(b"y\n" * 50)
+run(
+    [
+        sdkmanager, f"--sdk_root={ANDROID_HOME}",
+        "platform-tools", f"build-tools;{BUILD_TOOLS}", "platforms;android-35",
+    ],
+    cwd=TOOLS_DIR,
+)
 os.environ["ANDROID_HOME"] = ANDROID_HOME
 os.environ["ANDROID_SDK_ROOT"] = ANDROID_HOME
 

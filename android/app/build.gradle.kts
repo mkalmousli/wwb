@@ -22,6 +22,9 @@ if (hasReleaseSigning) {
 android {
     namespace = "com.github.mkalmousli.wwb"
     compileSdk = flutter.compileSdkVersion
+    // Pin build-tools so the dex/zipalign output is reproducible regardless of
+    // which versions happen to be installed in the build SDK.
+    buildToolsVersion = "34.0.0"
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
