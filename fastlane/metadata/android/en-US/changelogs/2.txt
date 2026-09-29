@@ -1,0 +1,1 @@
+Fix reproducible builds (release build now uses JDK 21, matching F-Droid's build server).

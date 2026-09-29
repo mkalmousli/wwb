@@ -3,7 +3,7 @@ description: "WayWayBack — an unofficial, client-side Internet Archive Wayback
 publish_to: 'none'
 
 # versionName+versionCode. Bump both for every release.
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.11.5
