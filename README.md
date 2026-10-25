@@ -31,14 +31,14 @@ Every feature has a short demo video on the [website](https://mkalmousli.github.
 
 | | |
 |---|---|
-| [**Year → month → day calendar**](https://mkalmousli.github.io/wwb/features/calendar/) | Every day cell shows its capture count on a heat scale. Empty years, months and days are crossed out and never requested. |
-| [**Fast by design**](https://mkalmousli.github.io/wwb/features/calendar/) | Uses the Wayback Machine's own `sparkline` and `calendarcaptures` endpoints, fetches only the selected year and caches locally. |
-| [**Per-day snapshot list**](https://mkalmousli.github.io/wwb/features/snapshots/) | Time and HTTP status for each capture, with hour / minute / second filters that only offer times that exist. |
-| [**Smart search**](https://mkalmousli.github.io/wwb/features/search/) | Instant URL guesses plus optional keyless **Wikipedia** (article → homepage) and **npm** (package → repository) lookups; recent searches are remembered. |
-| [**Stars & history**](https://mkalmousli.github.io/wwb/features/stars-and-history/) | Star sites and snapshots; keep a local history of every link and capture you opened. |
-| [**Share to open**](https://mkalmousli.github.io/wwb/features/share-to-open/) | Share a URL into WayWayBack from any app, or use `wwb://open?url=…` deep links. |
-| [**Themes & layout**](https://mkalmousli.github.io/wwb/features/themes/) | Light / dark / system, drag-to-reorder home tabs. |
-| [**Private**](https://mkalmousli.github.io/wwb/features/privacy/) | No account, no backend, no tracking, no ads. Everything stays on your device. |
+| [**Year → month → day calendar**](https://mkalmousli.github.io/wwb/#calendar) | Every day cell shows its capture count on a heat scale. Empty years, months and days are crossed out and never requested. |
+| [**Fast by design**](https://mkalmousli.github.io/wwb/#calendar) | Uses the Wayback Machine's own `sparkline` and `calendarcaptures` endpoints, fetches only the selected year and caches locally. |
+| [**Per-day snapshot list**](https://mkalmousli.github.io/wwb/#snapshots) | Time and HTTP status for each capture, with hour / minute / second filters that only offer times that exist. |
+| [**Smart search**](https://mkalmousli.github.io/wwb/#search) | Instant URL guesses plus optional keyless **Wikipedia** (article → homepage) and **npm** (package → repository) lookups; recent searches are remembered. |
+| [**Stars & history**](https://mkalmousli.github.io/wwb/#stars-and-history) | Star sites and snapshots; keep a local history of every link and capture you opened. |
+| [**Share to open**](https://mkalmousli.github.io/wwb/#share-to-open) | Share a URL into WayWayBack from any app, or use `wwb://open?url=…` deep links. |
+| [**Themes & layout**](https://mkalmousli.github.io/wwb/#themes) | Light / dark / system, drag-to-reorder home tabs. |
+| [**Private**](https://mkalmousli.github.io/wwb/#privacy) | No account, no backend, no tracking, no ads. Everything stays on your device. |
 
 ## Screenshots
 

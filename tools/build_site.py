@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the GitHub Pages site into site/ (index, one page per feature, sitemap, robots).
+"""Generate the single-page GitHub Pages site into site/ (index.html, sitemap, robots).
 
     python3 tools/build_site.py
 
@@ -179,8 +179,8 @@ def build():
            "featureList": [f["title"] for f in FEATURES]}
     faq = {"@context": "https://schema.org", "@type": "FAQPage",
            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}
-    cards = "".join(f'<article class="card"><h3><a class="h" href="{BASE}/features/{f["slug"]}/">{e(f["title"])}</a></h3><p>{e(f["short"])}</p></article>' for f in FEATURES)
-    sections = "".join(f'''<section class="feat" id="{f["slug"]}"><div>{video(f)}</div><div><h3><a href="{BASE}/features/{f["slug"]}/">{e(f["title"])}</a></h3><p>{e(f["desc"])}</p><p><a href="{BASE}/features/{f["slug"]}/">Learn more →</a></p></div></section>''' for f in FEATURES)
+    cards = "".join(f'<article class="card"><h3><a class="h" href="#{f["slug"]}">{e(f["title"])}</a></h3><p>{e(f["short"])}</p></article>' for f in FEATURES)
+    sections = "".join(f'''<section class="feat" id="{f["slug"]}"><div>{video(f)}</div><div><h3>{e(f["title"])}</h3><p class="lead">{e(f["desc"])}</p>{"".join(f"<p>{e(x)}</p>" for x in f["body"])}</div></section>''' for f in FEATURES)
     shots = "".join(f'<img src="{BASE}/assets/img/framed-{f["img"]}.webp" alt="{e(NAME)} screenshot: {e(f["title"])}" width="600" height="1200" loading="lazy">' for f in FEATURES)
     faqh = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in FAQ)
     body = f'''<div class="heroWrap"><section class="hero"><div><span class="pill">Free · Open source · No tracking</span><h1>Browse the <em>Wayback Machine</em> by year, month and day</h1>
@@ -196,22 +196,11 @@ def build():
 <div class="card"><h3>F-Droid</h3><p>A reproducible build recipe is included in the repository, ready for F-Droid.</p></div>
 <div class="card"><h3>Desktop</h3><p>Linux, Windows and macOS archives are on the <a href="{RELEASES}">release page</a>.</p></div></div>
 <h2 id="faq">FAQ</h2>{faqh}'''
-    page("", f"{NAME} – {TAGLINE} | Browse Internet Archive history", DESC, body, [app, faq])
-    for f in FEATURES:
-        paras = "".join(f"<p>{e(p)}</p>" for p in f["body"])
-        b = f'''<p class="crumbs"><a href="{BASE}/">Home</a> › <a href="{BASE}/#features">Features</a> › {e(f["title"])}</p>
-<section class="feat"><div>{video(f)}</div><div><h1>{e(f["title"])}</h1><p class="lead">{e(f["desc"])}</p>{paras}
-<a class="btn" href="{RELEASES}">Download {NAME}</a></div></section>
-<h2>Screenshot</h2>{img(f["img"], f"{NAME} screenshot: {f['title']}", style="max-width:300px;border-radius:16px")}
-<h2>More features</h2><div class="grid">{"".join(f'<article class="card"><h3><a class="h" href="{BASE}/features/{g["slug"]}/">{e(g["title"])}</a></h3><p>{e(g["short"])}</p></article>' for g in FEATURES if g is not f)}</div>'''
-        crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": NAME, "item": URL},
-            {"@type": "ListItem", "position": 2, "name": f["title"], "item": f'{URL}features/{f["slug"]}/'}]}
-        vid = {"@context": "https://schema.org", "@type": "VideoObject", "name": f"{f['title']} – {NAME} demo",
-               "description": f["desc"], "thumbnailUrl": f'{URL}assets/video/{f["video"]}.jpg',
-               "contentUrl": f'{URL}assets/video/{f["video"]}.mp4', "uploadDate": TODAY}
-        page(f'features/{f["slug"]}/', f'{f["title"]} – {NAME} {TAGLINE}', f["desc"], b, [crumbs, vid], ptype="article")
-    urls = [URL] + [f'{URL}features/{f["slug"]}/' for f in FEATURES]
+    vids = [{"@context": "https://schema.org", "@type": "VideoObject", "name": f"{f['title']} – {NAME} demo",
+             "description": f["desc"], "thumbnailUrl": f'{URL}assets/video/{f["video"]}.jpg',
+             "contentUrl": f'{URL}assets/video/{f["video"]}.mp4', "uploadDate": TODAY} for f in FEATURES]
+    page("", f"{NAME} – {TAGLINE} | Browse Internet Archive history", DESC, body, [app, faq, *vids])
+    urls = [URL]
     (SITE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         "".join(f"<url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n")
     (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {URL}sitemap.xml\n")
