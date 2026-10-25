@@ -1,50 +1,52 @@
 <div align="center">
 
-<img src="assets/wwb.svg" width="120" alt="WayWayBack logo">
+<img src="assets/wwb.svg" width="112" alt="WayWayBack logo">
 
 # WayWayBack
 
-**An unofficial, fully client-side browser for the Internet Archive Wayback Machine.**
+**A free, open-source Wayback Machine app for Android, Linux, Windows and macOS.**
 
-Search for a site, then walk its history on a heat-map calendar — year → month → day —
-and open any snapshot in your browser.
+Search for a site, then walk its Internet Archive history on a heat-map calendar —
+year → month → day — and open any snapshot in your browser.
+
+[**Website & demo videos**](https://mkalmousli.github.io/wwb/) · [**Download**](https://github.com/mkalmousli/wwb/releases/latest) · [Report an issue](https://github.com/mkalmousli/wwb/issues)
 
 [![Release](https://img.shields.io/github/v/release/mkalmousli/wwb?sort=semver)](https://github.com/mkalmousli/wwb/releases)
 [![Build APK](https://github.com/mkalmousli/wwb/actions/workflows/release.yml/badge.svg)](https://github.com/mkalmousli/wwb/actions/workflows/release.yml)
+[![Website](https://img.shields.io/badge/website-live-2196f3.svg)](https://mkalmousli.github.io/wwb/)
 [![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/built%20with-Flutter-02569B.svg)](https://flutter.dev)
+
+<br>
+
+<img src="docs/screenshots/framed-3.png" width="23%" alt="Calendar of captures"> <img src="docs/screenshots/framed-4.png" width="23%" alt="Snapshots of a day with filters"> <img src="docs/screenshots/framed-2.png" width="23%" alt="Search"> <img src="docs/screenshots/framed-1.png" width="23%" alt="Home with stars and history">
 
 </div>
 
 ---
 
+## Features
+
+Every feature has a short demo video on the [website](https://mkalmousli.github.io/wwb/).
+
+| | |
+|---|---|
+| [**Year → month → day calendar**](https://mkalmousli.github.io/wwb/features/calendar/) | Every day cell shows its capture count on a heat scale. Empty years, months and days are crossed out and never requested. |
+| [**Fast by design**](https://mkalmousli.github.io/wwb/features/calendar/) | Uses the Wayback Machine's own `sparkline` and `calendarcaptures` endpoints, fetches only the selected year and caches locally. |
+| [**Per-day snapshot list**](https://mkalmousli.github.io/wwb/features/snapshots/) | Time and HTTP status for each capture, with hour / minute / second filters that only offer times that exist. |
+| [**Smart search**](https://mkalmousli.github.io/wwb/features/search/) | Instant URL guesses plus optional keyless **Wikipedia** (article → homepage) and **npm** (package → repository) lookups; recent searches are remembered. |
+| [**Stars & history**](https://mkalmousli.github.io/wwb/features/stars-and-history/) | Star sites and snapshots; keep a local history of every link and capture you opened. |
+| [**Share to open**](https://mkalmousli.github.io/wwb/features/share-to-open/) | Share a URL into WayWayBack from any app, or use `wwb://open?url=…` deep links. |
+| [**Themes & layout**](https://mkalmousli.github.io/wwb/features/themes/) | Light / dark / system, drag-to-reorder home tabs. |
+| [**Private**](https://mkalmousli.github.io/wwb/features/privacy/) | No account, no backend, no tracking, no ads. Everything stays on your device. |
+
 ## Screenshots
 
-| | | | |
-|---|---|---|---|
-| ![](docs/screenshots/2.png) | ![](docs/screenshots/3.png) | ![](docs/screenshots/4.png) | ![](docs/screenshots/1.png) |
+<p align="center">
+<img src="docs/screenshots/framed-5.png" width="23%" alt="History"> <img src="docs/screenshots/framed-6.png" width="23%" alt="Settings"> <img src="docs/screenshots/framed-8.png" width="23%" alt="Light theme calendar"> <img src="docs/screenshots/framed-7.png" width="23%" alt="About">
+</p>
 
-![](docs/screenshots/desktop-1.png)
-
-## What it does
-
-- **Year → month → day calendar.** Pick a year, a month and a day; every day cell
-  shows how many times the site was captured, on a heat scale.
-- **Genuinely fast.** It uses the Wayback Machine's own calendar endpoints
-  (`sparkline` + `calendarcaptures`), fetches only the selected year, and caches
-  results locally. Years and months that the archive says are empty are marked
-  with a ✕ and never requested.
-- **Per-day snapshot list** with smart hour / minute / second filters that only
-  offer the times that actually exist.
-- **Search** that merges instant URL guesses with two optional keyless engines —
-  **Wikipedia** (article → homepage) and **npm** (package → repository). Recent
-  searches are saved and offered next time.
-- **Stars & history.** Star sites and snapshots; keep a local history of every
-  link and capture you opened.
-- **Share to open.** Share a URL into WayWayBack from any app to jump straight to
-  its archive calendar. `wwb://open?url=…` deep links also work.
-- **Themes & layout.** Light / dark / system, drag-to-reorder home tabs.
-- **No account, no backend, no tracking, no ads.** Everything is stored locally.
+<p align="center"><img src="docs/screenshots/desktop-1.png" width="80%" alt="Desktop version"></p>
 
 ## Install
 

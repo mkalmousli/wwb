@@ -85,25 +85,39 @@ FAQ = [
 ]
 
 e = html.escape
-CSS = """:root{--bg:#f7f9fc;--fg:#10151f;--mut:#566074;--card:#fff;--line:#dfe5ee;--acc:#1565c0;--acc2:#0d3b8c}
-@media(prefers-color-scheme:dark){:root{--bg:#0e1118;--fg:#e8ecf4;--mut:#9aa6bd;--card:#161b26;--line:#252c3b;--acc:#8ab4ff;--acc2:#4f83e0}}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:17px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
-a{color:var(--acc)}.w{max-width:1040px;margin:0 auto;padding:0 20px}
-header.top{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0;flex-wrap:wrap}
-.brand{display:flex;gap:10px;align-items:center;font-weight:700;color:var(--fg);text-decoration:none;font-size:20px}.brand img{border-radius:8px}
-nav a{margin-left:16px;text-decoration:none;color:var(--mut)}nav a:hover{color:var(--acc)}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:40px 0 56px}
-h1{font-size:clamp(34px,6vw,54px);line-height:1.1;margin:0 0 14px}h2{font-size:30px;margin:48px 0 12px}h3{margin:0 0 6px}
-.lead{font-size:20px;color:var(--mut)}.btn{display:inline-block;padding:12px 22px;border-radius:12px;background:var(--acc2);color:#fff;text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
-.btn.alt{background:transparent;color:var(--acc);border:1px solid var(--line)}
-.phone{width:100%;max-width:300px;border-radius:26px;border:6px solid #222;box-shadow:0 18px 50px #0004;display:block;margin:auto;background:#000}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}.card p{margin:0;color:var(--mut)}.card a.h{text-decoration:none;color:inherit}
-.feat{display:grid;grid-template-columns:300px 1fr;gap:36px;align-items:start;padding:30px 0}.feat p{color:var(--mut)}
-.crumbs{font-size:14px;color:var(--mut);margin-top:8px}details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}summary{cursor:pointer;font-weight:600}
-.shots{display:flex;gap:14px;overflow-x:auto;padding:6px 0 16px;scroll-snap-type:x mandatory}.shots img{height:440px;width:auto;border-radius:16px;border:1px solid var(--line);scroll-snap-align:start}
-footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0;color:var(--mut);font-size:15px}
-@media(max-width:760px){.hero,.feat{grid-template-columns:1fr}.hero img.phone,.feat video{margin:auto}}
+CSS = """:root{--bg:#f6f8fc;--fg:#0f1522;--mut:#56617a;--card:#fff;--line:#e0e6f0;--acc:#1565c0;--acc2:#0d47a1;--glow:#2196f333}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0e15;--fg:#e9eef8;--mut:#9aa7c0;--card:#141925;--line:#222a3b;--acc:#8ab4ff;--acc2:#3b72d9;--glow:#2196f322}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+a{color:var(--acc)}.w{max-width:1100px;margin:0 auto;padding:0 22px}
+.bar{position:sticky;top:0;z-index:9;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px;flex-wrap:wrap}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;color:var(--fg);text-decoration:none;font-size:20px}.brand img{border-radius:9px}
+nav a{margin-left:20px;text-decoration:none;color:var(--mut);font-weight:500}nav a:hover{color:var(--acc)}
+nav a.cta{background:var(--acc2);color:#fff;padding:7px 16px;border-radius:99px}
+.heroWrap{background:radial-gradient(900px 500px at 78% 30%,var(--glow),transparent),linear-gradient(180deg,var(--bg),var(--bg))}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:56px 0 72px}
+.pill{display:inline-block;font-size:14px;font-weight:600;color:var(--acc);border:1px solid var(--line);background:var(--card);padding:4px 14px;border-radius:99px;margin-bottom:18px}
+h1{font-size:clamp(36px,6vw,58px);line-height:1.08;margin:0 0 18px;letter-spacing:-.02em}
+h1 em{font-style:normal;background:linear-gradient(90deg,#2196f3,#7c4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(26px,4vw,36px);margin:72px 0 8px;letter-spacing:-.01em}h3{margin:0 0 6px;font-size:20px}
+.sub{color:var(--mut);margin:0 0 28px}.lead{font-size:20px;color:var(--mut)}
+.btn{display:inline-block;padding:13px 26px;border-radius:14px;background:linear-gradient(135deg,#2196f3,#0d47a1);color:#fff;text-decoration:none;font-weight:700;margin:6px 10px 6px 0;box-shadow:0 8px 24px #0d47a155;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn.alt{background:var(--card);color:var(--fg);border:1px solid var(--line);box-shadow:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;color:var(--mut);font-size:14px}.badges span{background:var(--card);border:1px solid var(--line);padding:3px 12px;border-radius:99px}
+.phone{width:100%;max-width:290px;aspect-ratio:720/1512;object-fit:cover;border-radius:34px;border:7px solid #0b0d12;box-shadow:0 30px 80px #0006,0 0 0 1px #ffffff1a;display:block;margin:auto;background:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;transition:transform .15s,box-shadow .15s}.card:hover{transform:translateY(-3px);box-shadow:0 14px 40px #0002}
+.card p{margin:0;color:var(--mut)}.card a.h{text-decoration:none;color:inherit}
+.feat{display:grid;grid-template-columns:320px 1fr;gap:56px;align-items:center;padding:44px 0}
+.feat:nth-of-type(even){grid-template-columns:1fr 320px}.feat:nth-of-type(even)>div:first-child{order:2}
+.feat p{color:var(--mut)}.feat h3{font-size:26px}.feat h3 a{color:var(--fg);text-decoration:none}
+.crumbs{font-size:14px;color:var(--mut);margin-top:16px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:10px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mut);margin:8px 0 0}
+.shots{display:flex;gap:18px;overflow-x:auto;padding:10px 2px 22px;scroll-snap-type:x mandatory}.shots img{height:520px;width:auto;border-radius:18px;scroll-snap-align:start;box-shadow:0 12px 36px #0003}
+footer{border-top:1px solid var(--line);margin-top:80px;padding:32px 0;color:var(--mut);font-size:15px}
+@media(max-width:800px){.hero,.feat,.feat:nth-of-type(even){grid-template-columns:1fr;gap:28px}.feat:nth-of-type(even)>div:first-child{order:0}nav a:not(.cta){display:none}.shots img{height:420px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 """
 
 def ld(obj):
@@ -133,20 +147,21 @@ def page(path, title, desc, body, extra_ld=(), og_img="assets/og.png", depth=0, 
 <link rel="stylesheet" href="{root}assets/style.css">
 {''.join(ld(x) for x in extra_ld)}
 </head><body>
-<div class="w"><header class="top"><a class="brand" href="{root}"><img src="{root}assets/icon.png" width="36" height="36" alt="{NAME} logo">{NAME}</a>
-<nav aria-label="Main"><a href="{root}#features">Features</a><a href="{root}#install">Install</a><a href="{root}#faq">FAQ</a><a href="{REPO}">GitHub</a></nav></header>
+<div class="bar"><div class="w"><header class="top"><a class="brand" href="{root}"><img src="{root}assets/icon.png" width="36" height="36" alt="{NAME} logo">{NAME}</a>
+<nav aria-label="Main"><a href="{root}#features">Features</a><a href="{root}#install">Install</a><a href="{root}#faq">FAQ</a><a href="{REPO}">GitHub</a><a class="cta" href="{RELEASES}">Download</a></nav></header></div></div><div class="w">
 <main>
 """
     foot = f"""</main>
 <footer><p>{NAME} is an independent, unofficial client for the Internet Archive's Wayback Machine and is not affiliated with or endorsed by the Internet Archive.
-Free software under <a href="{REPO}/blob/main/LICENSE">GPL-3.0-or-later</a> · <a href="{REPO}">Source</a> · <a href="{REPO}/issues">Report an issue</a> · <a href="https://al-mo.de/apps/waywayback/">Project page</a></p></footer></div></body></html>"""
+Free software under <a href="{REPO}/blob/main/LICENSE">GPL-3.0-or-later</a> · <a href="{REPO}">Source</a> · <a href="{REPO}/issues">Report an issue</a> · <a href="https://al-mo.de/apps/waywayback/">Project page</a></p></footer></div>
+<script>(function(){{var v=document.querySelectorAll("video");if(!("IntersectionObserver"in window))return;var o=new IntersectionObserver(function(es){{es.forEach(function(x){{var m=x.target;if(x.isIntersecting){{var p=m.play();p&&p.catch&&p.catch(function(){{}})}}else m.pause()}})}},{{threshold:.35}});v.forEach(function(m){{o.observe(m)}})}})();</script></body></html>"""
     out = SITE / path / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(head + body + foot)
 
 def video(f, cls=""):
     r = BASE + "/assets/video/"
-    return (f'<video class="phone {cls}" width="270" height="560" controls muted playsinline loop preload="none" '
+    return (f'<video class="phone {cls}" width="270" height="560" autoplay muted playsinline loop preload="metadata" '
             f'poster="{r}{f["video"]}.jpg" aria-label="{e(f["title"])} demo video"><source src="{r}{f["video"]}.mp4" type="video/mp4"></video>')
 
 def build():
@@ -166,14 +181,15 @@ def build():
            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}
     cards = "".join(f'<article class="card"><h3><a class="h" href="{BASE}/features/{f["slug"]}/">{e(f["title"])}</a></h3><p>{e(f["short"])}</p></article>' for f in FEATURES)
     sections = "".join(f'''<section class="feat" id="{f["slug"]}"><div>{video(f)}</div><div><h3><a href="{BASE}/features/{f["slug"]}/">{e(f["title"])}</a></h3><p>{e(f["desc"])}</p><p><a href="{BASE}/features/{f["slug"]}/">Learn more →</a></p></div></section>''' for f in FEATURES)
-    shots = "".join(img(f["img"], f"{NAME} screenshot: {f['title']}") for f in FEATURES)
+    shots = "".join(f'<img src="{BASE}/assets/img/framed-{f["img"]}.webp" alt="{e(NAME)} screenshot: {e(f["title"])}" width="600" height="1200" loading="lazy">' for f in FEATURES)
     faqh = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in FAQ)
-    body = f'''<section class="hero"><div><h1>Browse the Wayback Machine by year, month and day</h1>
+    body = f'''<div class="heroWrap"><section class="hero"><div><span class="pill">Free · Open source · No tracking</span><h1>Browse the <em>Wayback Machine</em> by year, month and day</h1>
 <p class="lead">{NAME} is a free, open-source Wayback Machine app for Android, Linux, Windows and macOS. Search a website, then walk its Internet Archive history on a heat-map calendar. No account, no ads, no tracking.</p>
-<a class="btn" href="{RELEASES}">Download APK</a><a class="btn alt" href="{REPO}">View on GitHub</a></div>
-<div><img class="phone" src="{BASE}/assets/img/calendar.webp" width="540" height="1134" alt="{NAME} calendar showing capture counts for example.com"></div></section>
-<h2 id="features">Features</h2><div class="grid">{cards}</div>
-<h2>See every feature in action</h2>{sections}
+<a class="btn" href="{RELEASES}">Download APK</a><a class="btn alt" href="{REPO}">View on GitHub</a>
+<div class="badges"><span>Android</span><span>Linux</span><span>Windows</span><span>macOS</span><span>F-Droid ready</span></div></div>
+<div>{video(FEATURES[0])}</div></section></div>
+<h2 id="features">Everything you need to explore web history</h2><p class="sub">Tap a feature to see how it works.</p><div class="grid">{cards}</div>
+<h2>See it in action</h2><p class="sub">Short, silent demos recorded on a real phone.</p>{sections}
 <h2>Screenshots</h2><div class="shots">{shots}</div>
 <h2 id="install">Install</h2><div class="grid">
 <div class="card"><h3>Android</h3><p>Grab an APK from the <a href="{RELEASES}">latest release</a>. <code>arm64-v8a</code> suits most phones; <code>universal</code> works anywhere.</p></div>
