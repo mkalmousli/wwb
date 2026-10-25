@@ -43,6 +43,8 @@ class _DayPageState extends ConsumerState<DayPage> {
 
   bool get _hasFilter => _fHour != null || _fMinute != null || _fSecond != null;
 
+  static String _snapshots(int n) => n == 1 ? 'snapshot' : 'snapshots';
+
   List<WaybackSnapshot> _apply(List<WaybackSnapshot> list) => list.where((s) {
     final t = s.dateTime;
     if (_fHour != null && t.hour != _fHour) return false;
@@ -155,9 +157,10 @@ class _DayPageState extends ConsumerState<DayPage> {
             Favicon(widget.url, size: 20),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                DateFormat('EEE, d MMM yyyy').format(widget.day),
-                overflow: TextOverflow.ellipsis,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(DateFormat('EEE, d MMM yyyy').format(widget.day)),
               ),
             ),
           ],
@@ -278,8 +281,8 @@ class _DayPageState extends ConsumerState<DayPage> {
                   _loading
                       ? '${all.length} so far · ${_log.isNotEmpty ? _log.last.message : "loading…"}'
                       : _hasFilter
-                      ? '${list.length} of ${all.length} snapshot(s)'
-                      : '${all.length} snapshot(s) · loaded in '
+                      ? '${list.length} of ${all.length} ${_snapshots(all.length)}'
+                      : '${all.length} ${_snapshots(all.length)} · loaded in '
                             '${fmtElapsed((_log.isNotEmpty ? _log.last.at : DateTime.now()).difference(_startedAt))}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
